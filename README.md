@@ -11,19 +11,19 @@ Para esse banco eu utilizei o xampp que já vem com o banco configura dessa mesm
 #Regras do projeto
 Para rodar o projeto foi-se utilizado o Tomcat v8 e subido na porta do localhost:8080 com o nome "teste-esig". Sendo o primeiro acesso ao index.xhtml sendo por: http://localhost:8080/teste-esig/
 
-Apos o aceso irá retorna a pagina de menu inicial do sistema, como mostra a figura a baixo:
+Apos o aceso irá retorna a página de menu inicial do sistema, como mostra a figura a baixo:
 
 ![image](https://user-images.githubusercontent.com/78569602/139676815-600017ff-c3e7-45af-bb24-a4403d61badf.png)
 
-E nessa pagina temos 2 (duas) navegações, a primeira é de cadastro:
+E nessa página temos 2 (duas) navegações, a primeira é de cadastro:
 
 ![image](https://user-images.githubusercontent.com/78569602/139677031-e1a30f0d-83a5-4e13-8993-9a6a8f505332.png)
 
 Onde temos como voltar para o index ou salvar/criar uma nova tarefa, e apartir dessa navegação de salvar temos algumas regras:
 
 1 - Todo cadastro gera uma tarefa com a situação EMANDAMENTO;
-2 - Todo cadastro cadastra a data que a tarefa está sendo criada;
-3 - Não é possivel cadastrar uma tarefa com a deadline com data anterior a data de hoje (Não é possivel cadastrar tarefas no passado, já que toda tarefa criada está setada com sua situação EMANDAMENTO);
+2 - Todo cadastro cadastra a data que a tarefa está sendo criada no formato (YYYY/MM/DD HH:MM:SS);
+3 - Não é possivel cadastrar uma tarefa com a deadline com data anterior a data de hoje (Não é possável cadastrar tarefas no passado, já que toda tarefa criada está setada com sua situação EMANDAMENTO);
 4 - E por fim todos os campos de cadastro são obrigatorios.
 
 a segunda navegação da pagina index é de busca, e ela tem dois estados, antes de pesquisar:
@@ -41,8 +41,10 @@ Onde temos como concluir tarefas, excluir tarefas ou detalhar tarefas, e apartir
 1 - As 3(três) funcionalidades podem ser selecionadas varias ou apenas 1(uma) tarefa;
 2 - Se tentar concluir uma tarefa com situação CONCLUIDA, o sistema irá avisar por meio de mensagem, porém eu posso concluir outras tarefas em grupo se elas estiverem ainda com situação EMANDAMENTO;
 3 - As prioridades das tarefas estão sendo colocadas na tabela com as cores padrão de prioridades (verde-baixa, amarelo-média e vermelho-alta);
-4 - Para editar qualquer tarefa, basta clicar no nome do título que também é um link que passará como parametro o id da tarefa selecionada e abrira a pagina de cadastro com os dados daquela tarefa, como mostrado abaixo.
+4 - Para editar qualquer tarefa, basta clicar no nome do título que também é um link que passará como parametro o id da tarefa selecionada e abrirá a página de cadastro com os dados daquela tarefa, como mostrado abaixo.
 ![image](https://user-images.githubusercontent.com/78569602/139679344-e7de155c-0317-4cd0-9c2d-d5a9a797c0f5.png)
+
+Assim como o salvamento gera a data que a tarefa foi cadastrada, a edição também gera a data da ultima edição no formato (YYYY/MM/DD HH:MM:SS). 
 
 Para finalizar toda navegação irá gerar um histórico que fica a cima na parte direita como mostrado abaixo, e ao click irá nos retornar a ultima navegação feita.
 ![image](https://user-images.githubusercontent.com/78569602/139679553-691340ea-8590-47bc-8c3c-a459fee31189.png)
