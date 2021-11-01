@@ -1,0 +1,146 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+
+    <ui:define name="head-end">
+        <style type="text/css">
+            .ui-grid-row .ui-grid-col-2,
+            .ui-grid-row .ui-grid-col-10 {
+                padding: 0.5em 0;
+                margin-left: 10px;
+            }
+
+            .ui-orderlist .ui-orderlist-list {
+                height: auto;
+            }
+
+            .ui-orderlist .ui-grid-row .ui-grid-col-2,
+            .ui-orderlist .ui-grid-row .ui-grid-col-10 {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">
+        Pesquisa Tarefa
+    </ui:define>
+
+    <ui:define name="description">
+        Pesquise de acordo com os filtros 
+    </ui:define>
+
+    <ui:define name="body">
+        <adm:breadcrumb title="Pesquisa Tarefa"/>
+
+			<h:form>
+            	<div class="box box-primary">
+                	<div class="box-header with-border">
+                	
+                		<div class="ui-fluid">
+	                    	
+	                    	 <p:panelGrid id="capaPanel1" columns="1" layout="grid">
+		                    	<p:outputLabel value="Número:" for="numero"/>
+	                    		<p:inputText id="numero" value="#{listaTarefaMB.filtroId}"/>
+	                    		
+	                    		<p:outputLabel value="Título:" for="titulo"/>
+	                    		<p:inputText id="titulo" value="#{listaTarefaMB.filtroTitulo}" />
+	                    	</p:panelGrid>
+	                    		
+	                    	<p:panelGrid id="capaPanel2" columns="5" layout="grid">
+	 							<p:outputLabel value="Responsável:" for="responsavel"/>
+	                    		<p:selectOneMenu id="responsavel" value="#{listaTarefaMB.filtroResponsavel}">
+	                    			<f:selectItem itemLabel="Selecione"/>
+	                    			<f:selectItem itemLabel="Lucas" itemValue="CHEFE"/>
+	                    			<f:selectItem itemLabel="Maria" itemValue="GERENTE"/>  
+	                    			<f:selectItem itemLabel="Marcos" itemValue="FUNCIONARIO1"/>
+	                    			<f:selectItem itemLabel="Joana" itemValue="FUNCIONARIO2"/> 
+	                    			<f:selectItem itemLabel="João" itemValue="ESTAGIARIO"/>                 		
+	                    		</p:selectOneMenu>
+	                    		
+	                    		<p:outputLabel value="Situação:" for="situacao"/>
+	                    		<p:selectOneMenu id="situacao" value="#{listaTarefaMB.filtroSituacao}">
+	                    			<f:selectItem itemLabel="Selecione"/>
+	                    			<f:selectItem itemLabel="Em andamento" itemValue="EMANDAMENTO"/>
+	                    			<f:selectItem itemLabel="Concluida" itemValue="CONCLUIDA"/>                   		
+	                    		</p:selectOneMenu> 
+	 							
+	 							 <p:commandButton value="Buscar" icon="fa fa-search" styleClass="btn-info"
+	                    			     action="#{listaTarefaMB.busca}"
+	                    			     process="@form" update="@form"/>
+	                                     
+	                    	</p:panelGrid>
+	                    
+	                    </div>
+	                    
+	                    
+	                    <p:commandButton value="Concluir Selecionada(s)" styleClass="btn btn-light"
+	                    			     action="#{listaTarefaMB.concluirSelecionados()}"
+	                                     process="@form" update="@form"
+	                                     rendered="#{listaTarefaMB.tarefas.size() != 0}"/>
+	                    <p:spacer width="5"/>
+	                    <p:commandButton value="Excluir Selecionado(s)" styleClass="btn btn-light"
+	                    			     action="#{listaTarefaMB.excluirSelecionados()}"
+	                                     process="@form" update="@form"
+	                                     rendered="#{listaTarefaMB.tarefas.size() != 0}"/>
+	                    <p:spacer width="5"/>
+	                    <p:commandButton value="Olhar Selecionado(s)" styleClass="btn btn-light"
+	                    				 oncomplete="PF('tarefaSelecionadas').show()"
+	                    				 update="@(.ui-dialog)" 
+	                                     rendered="#{listaTarefaMB.tarefas.size() != 0}"/>
+	                    <p:separator/>
+	                    
+	                    <p:dataTable id="tarefaTable" widgetVar="tarefaTable" rows="10"
+	                    			 value="#{listaTarefaMB.tarefas}" var="tarefa" rowKey="#{tarefa.id}"
+	                    			 selection="#{listaTarefaMB.tarefaSelecionadas}"	                    			 
+	                                 paginator="true" 	                                 
+	                                 paginatorPosition="bottom"	                                 
+	                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+	                                 currentPageReportTemplate=""
+	                                 rowsPerPageTemplate="5,10,15,20,30"
+	                                 rendered="#{listaTarefaMB.tarefas.size() != 0}">
+	
+	                        <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
+	                        
+	                        <p:column headerText="Número" width="8%">
+	                        	<h:outputLabel value="#{tarefa.id}" />	                        
+	                        </p:column>
+	                        
+	                        <p:column headerText="Título">
+	                        	<h:link value="#{tarefa.titulo}" outcome="cadastro-tarefa.xhtml">
+	                        		<f:param name="id" value="#{tarefa.id}"/>	                        	
+	                        	</h:link>	                        
+	                        </p:column>	 
+	                        
+	                        <p:column headerText="Responsável">
+	                        	<h:outputLabel value="#{tarefa.responsavel.descricao}" />
+	                        </p:column>  
+	                        
+	                        <p:column headerText="Prioridade" width="8%">
+								<p:column rendered="#{tarefa.prioridade == 'ALTA'}"><span style="background: #ea9999;">ALTA</span></p:column>
+								<h:column rendered="#{tarefa.prioridade == 'MEDIA'}"><span style="background: #ffe599;">MÉDIA</span></h:column>
+								<p:column rendered="#{tarefa.prioridade == 'BAIXA'}"><span style="background: #b6d7a8;">BAIXA</span></p:column>
+							</p:column>                                          
+	                        	
+	                    </p:dataTable>
+					</div>
+	            </div>
+        	</h:form>
+        	
+        	<p:dialog header="Tarefas Selecionadas" widgetVar="tarefaSelecionadas" height="250"
+                  	  width="400" responsive="true" styleClass="box-success">
+	            <p:dataList id="listaTarefaSelecionadas" value="#{listaTarefaMB.tarefaSelecionadas}" var="tarefa"
+	                        type="definition">
+	                        
+	                        ID: #{tarefa.id} - Título: #{tarefa.titulo} - Descrição: #{tarefa.descricao} - Responsável:#{tarefa.responsavel.descricao} - Situação: #{tarefa.situacao.descricao} - Prioridade: Situação: #{tarefa.prioridade.descricao} - Deadline: #{tarefa.deadline}
+
+	            </p:dataList>
+			</p:dialog>
+
+        
+    </ui:define>
+
+</ui:composition>
