@@ -8,7 +8,7 @@ Para se iniciar o projeto necessita apenas ter um banco MYSQL que está no local
 
 Para esse banco eu utilizei o xampp que já vem com o banco configura dessa mesma maneira, apenas criei o database com o nome a cima.
 
-#Regras do projeto
+# Regras do projeto
 Para rodar o projeto foi-se utilizado o Tomcat v8 e subido na porta do localhost:8080 com o nome "teste-esig". Sendo o primeiro acesso ao index.xhtml sendo por: http://localhost:8080/teste-esig/
 
 Apos o aceso irá retorna a página de menu inicial do sistema, como mostra a figura a baixo:
